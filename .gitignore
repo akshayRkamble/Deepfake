@@ -216,5 +216,9 @@ tests/__pycache__/
 tests/temp/
 
 models/saved_models/
+/.venv311/
+.venv311/
+*.pth
+*.pkl
 logs/
 notebooks/.ipynb_checkpoints/
