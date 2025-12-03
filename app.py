@@ -6,11 +6,18 @@ A comprehensive web application for deepfake detection across multiple modalitie
 """
 
 import streamlit as st
-import pandas as pd
-import numpy as np
+try:
+    import pandas as pd
+except Exception:
+    pd = None
+
+try:
+    import numpy as np
+except Exception:
+    np = None
+import random
 import os
 import torch
-import joblib
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import io
@@ -45,6 +52,24 @@ def annotate_pil_image(image: Image.Image, label: str, confidence: float) -> Ima
         return annotated
     except Exception:
         return image
+
+# Random helpers that don't require numpy
+def rand_choice(options, size=1, p=None):
+    if np is not None:
+        return np.random.choice(options, size=size, p=p)
+    else:
+        if size == 1:
+            return random.choice(list(options))
+        return [random.choice(list(options)) for _ in range(size)]
+
+
+def rand_uniform(low, high, size=1):
+    if np is not None:
+        return np.random.uniform(low, high, size)
+    else:
+        if size == 1:
+            return random.random() * (high - low) + low
+        return [random.random() * (high - low) + low for _ in range(size)]
 
 import plotly.graph_objects as go
 import plotly.express as px
@@ -150,6 +175,12 @@ def load_models():
             logger.error(f"Failed to download {filename} from {url}: {e}")
             return None
 
+    # local joblib import (optional)
+    try:
+        import joblib
+    except Exception:
+        joblib = None
+
     # Files to attempt to load
     candidates = {
         'svm': 'svm_model.pkl',
@@ -163,18 +194,22 @@ def load_models():
     # SVM
     try:
         svm_path = ensure_file(candidates['svm'])
-        if svm_path:
+        if svm_path and joblib is not None:
             models['svm'] = joblib.load(svm_path)
             logger.info("✓ SVM model loaded")
+        elif svm_path and joblib is None:
+            logger.warning("svm model file present but joblib not installed; SVM disabled")
     except Exception as e:
         logger.error(f"Error loading SVM: {e}")
 
     # Bayesian
     try:
         bayes_path = ensure_file(candidates['bayesian'])
-        if bayes_path:
+        if bayes_path and joblib is not None:
             models['bayesian'] = joblib.load(bayes_path)
             logger.info("✓ Bayesian model loaded")
+        elif bayes_path and joblib is None:
+            logger.warning("bayesian model present but joblib not installed; Bayesian disabled")
     except Exception as e:
         logger.error(f"Error loading Bayesian: {e}")
 
@@ -291,6 +326,9 @@ def page_model_testing():
         if upload_type == "📊 CSV Features":
             uploaded_file = st.file_uploader("Upload CSV with features", type=['csv'])
             if uploaded_file:
+                if pd is None:
+                    st.error("CSV support requires `pandas`. This deployment has pandas disabled to speed builds.")
+                    st.stop()
                 data = pd.read_csv(uploaded_file)
                 st.write("**Preview:**", data.head())
                 
@@ -299,14 +337,19 @@ def page_model_testing():
                 if st.button("🔍 Predict"):
                     try:
                         # Simple prediction (dummy for now)
-                        predictions = np.random.choice([0, 1], size=len(data), p=[0.6, 0.4])
-                        confidence = np.random.uniform(0.5, 0.99, size=len(data))
-                        
-                        results_df = pd.DataFrame({
-                            'Prediction': predictions,
-                            'Confidence': confidence,
-                            'Label': ['Real' if p == 0 else 'Fake' for p in predictions]
-                        })
+                        n = len(data)
+                        predictions = rand_choice([0, 1], size=n, p=[0.6, 0.4])
+                        confidence = rand_uniform(0.5, 0.99, size=n)
+
+                        # Ensure we have pandas for the results table
+                        if pd is not None:
+                            results_df = pd.DataFrame({
+                                'Prediction': predictions,
+                                'Confidence': confidence,
+                                'Label': ['Real' if int(p) == 0 else 'Fake' for p in predictions]
+                            })
+                        else:
+                            results_df = None
                         
                         st.success("✅ Prediction complete!")
                         st.write("**Results:**", results_df)
@@ -348,7 +391,11 @@ def page_model_testing():
 
                 def run_inference():
                     try:
-                        img_array = np.array(image)
+                        if np is not None:
+                            img_array = np.array(image)
+                        else:
+                            # fallback: convert to list of pixels
+                            img_array = list(image.getdata())
                         selected = {}
                         if use_cnn and ('CNN' in available_models or 'cnn' in available_models):
                             selected['CNN'] = available_models.get('CNN') or available_models.get('cnn')
@@ -360,7 +407,10 @@ def page_model_testing():
                             selected['Bayesian'] = available_models.get('Bayesian') or available_models.get('bayesian')
 
                         if use_ensemble and ensemble_predict is not None and selected:
-                            out = ensemble_predict(selected, features=np.zeros((1, 10)), image_array=img_array)
+                            features = None
+                            if np is not None:
+                                features = np.zeros((1, 10))
+                            out = ensemble_predict(selected, features=features, image_array=img_array)
                             label = out.get('ensemble_label', 'Unknown')
                             confidence = out.get('ensemble_confidence', 0.0)
                             details = out.get('individual_predictions', {})
@@ -374,12 +424,12 @@ def page_model_testing():
                                 details = {'vit': (label, confidence)}
                             elif selected:
                                 k = list(selected.keys())[0]
-                                label = np.random.choice(['Real', 'Fake'])
-                                confidence = float(np.random.uniform(0.5, 0.99))
+                                label = rand_choice(['Real', 'Fake'], size=1)[0]
+                                confidence = float(rand_uniform(0.5, 0.99, size=1)[0])
                                 details = {k: (label, confidence)}
                             else:
-                                label = np.random.choice(['Real', 'Fake'])
-                                confidence = float(np.random.uniform(0.5, 0.99))
+                                label = rand_choice(['Real', 'Fake'], size=1)[0]
+                                confidence = float(rand_uniform(0.5, 0.99, size=1)[0])
                                 details = {}
 
                         st.success(f"✅ **Prediction**: {label} (Confidence: {confidence:.2%})")
@@ -455,11 +505,21 @@ def page_analytics():
     
     with col2:
         st.subheader("Prediction Distribution")
-        predictions = np.random.binomial(1, 0.45, 1000)
-        counts = pd.Series(predictions).value_counts()
-        
+        if np is not None and pd is not None:
+            predictions = np.random.binomial(1, 0.45, 1000)
+            counts = pd.Series(predictions).value_counts()
+            labels = ['Real', 'Fake']
+            values = counts.values
+        else:
+            # fallback simple random distribution
+            preds = [random.random() < 0.45 for _ in range(1000)]
+            real_count = sum(1 for p in preds if not p)
+            fake_count = len(preds) - real_count
+            labels = ['Real', 'Fake']
+            values = [real_count, fake_count]
+
         fig = go.Figure(data=[
-            go.Pie(labels=['Real', 'Fake'], values=counts.values, marker_colors=['#2ca02c', '#d62728'])
+            go.Pie(labels=labels, values=values, marker_colors=['#2ca02c', '#d62728'])
         ])
         fig.update_layout(title="Prediction Results", height=400)
         st.plotly_chart(fig, use_container_width='stretch')
@@ -470,7 +530,10 @@ def page_analytics():
     
     with col1:
         st.subheader("Confusion Matrix")
-        data = np.array([[154, 12], [8, 126]])
+        if np is not None:
+            data = np.array([[154, 12], [8, 126]])
+        else:
+            data = [[154, 12], [8, 126]]
         
         fig = go.Figure(data=go.Heatmap(
             z=data,
@@ -512,14 +575,28 @@ def page_model_management():
     st.write("---")
     
     st.subheader("🔧 Model Details")
-    model_info = pd.DataFrame({
+    model_info_dict = {
         'Model': ['CNN', 'Transformer', 'SVM', 'Bayesian', 'Vision Transformer'],
         'Framework': ['PyTorch', 'PyTorch', 'scikit-learn', 'scikit-learn', 'PyTorch'],
         'File Size': ['103 MB', '86 MB', '4 KB', '873 B', '419 KB'],
         'Status': ['✓ Loaded', '✓ Loaded', '✓ Loaded', '✓ Loaded', '✓ Loaded'],
         'Last Training': ['2025-12-03', '2025-12-03', '2025-12-03', '2025-12-03', '2025-12-03']
-    })
-    st.dataframe(model_info, use_container_width='stretch', hide_index=True)
+    }
+    if pd is not None:
+        model_info = pd.DataFrame(model_info_dict)
+        st.dataframe(model_info, use_container_width='stretch', hide_index=True)
+    else:
+        # simple fallback table
+        rows = []
+        for i in range(len(model_info_dict['Model'])):
+            rows.append({
+                'Model': model_info_dict['Model'][i],
+                'Framework': model_info_dict['Framework'][i],
+                'File Size': model_info_dict['File Size'][i],
+                'Status': model_info_dict['Status'][i],
+                'Last Training': model_info_dict['Last Training'][i]
+            })
+        st.table(rows)
     
     st.write("---")
     
