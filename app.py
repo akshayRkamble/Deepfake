@@ -263,7 +263,7 @@ def page_model_testing():
             uploaded_file = st.file_uploader("Upload image", type=['jpg', 'png', 'jpeg'])
             if uploaded_file:
                 image = Image.open(uploaded_file).convert('RGB')
-                st.image(image, caption="Uploaded Image", use_container_width=True)
+                st.image(image, caption="Uploaded Image", use_container_width='stretch')
 
                 # Load models
                 if load_all_models is not None:
@@ -388,7 +388,7 @@ def page_analytics():
             height=400,
             showlegend=False
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width='stretch')
     
     with col2:
         st.subheader("Prediction Distribution")
@@ -399,7 +399,7 @@ def page_analytics():
             go.Pie(labels=['Real', 'Fake'], values=counts.values, marker_colors=['#2ca02c', '#d62728'])
         ])
         fig.update_layout(title="Prediction Results", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width='stretch')
     
     st.write("---")
     
@@ -419,7 +419,7 @@ def page_analytics():
             textfont={"size": 16}
         ))
         fig.update_layout(title="Confusion Matrix", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width='stretch')
     
     with col2:
         st.subheader("Performance Metrics")
@@ -428,7 +428,7 @@ def page_analytics():
             'Value': [0.874, 0.852, 0.856, 0.854]
         }
         metrics_df = pd.DataFrame(metrics_data)
-        st.dataframe(metrics_df, use_container_width=True, hide_index=True)
+        st.dataframe(metrics_df, use_container_width='stretch', hide_index=True)
 
 # Page: Model Management
 def page_model_management():
@@ -456,7 +456,7 @@ def page_model_management():
         'Status': ['✓ Loaded', '✓ Loaded', '✓ Loaded', '✓ Loaded', '✓ Loaded'],
         'Last Training': ['2025-12-03', '2025-12-03', '2025-12-03', '2025-12-03', '2025-12-03']
     })
-    st.dataframe(model_info, use_container_width=True, hide_index=True)
+    st.dataframe(model_info, use_container_width='stretch', hide_index=True)
     
     st.write("---")
     
