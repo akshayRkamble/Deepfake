@@ -5,6 +5,32 @@ import pandas as pd
 import numpy as np
 from src.config import config
 
+def plot_metrics(metrics, output_dir=config.LOG_DIR, filename='metrics.png'):
+    """
+    Plotting and saving model training metrics.
+    :param metrics: Dictionary containing metrics (e.g., {'accuracy': [...], 'loss': [...]})
+    :param output_dir: Directory to save the plot
+    :param filename: Name of the output file
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    fig, axes = plt.subplots(1, len(metrics), figsize=(15, 5))
+    if len(metrics) == 1:
+        axes = [axes]
+    
+    for idx, (metric_name, metric_values) in enumerate(metrics.items()):
+        axes[idx].plot(metric_values)
+        axes[idx].set_title(f'{metric_name}')
+        axes[idx].set_xlabel('Epoch')
+        axes[idx].set_ylabel(metric_name)
+        axes[idx].grid(True)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, filename))
+    plt.close()
+    print(f"Metrics plot saved to {os.path.join(output_dir, filename)}")
+
 def plot_histogram(data, column, bins=30, output_dir=config.LOG_DIR, filename='histogram.png'):
     """
     Plotting and saving histogram of a specified column.

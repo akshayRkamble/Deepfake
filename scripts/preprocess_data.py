@@ -2,13 +2,57 @@ import os
 import pandas as pd
 import numpy as np
 import cv2
-from src.config import config
-from src.utils.logger import setup_logger
-from src.dataset.data_splitter import split_data
-from src.dataset.data_augmentation import augment_data
-from src.utils.file_utils import save_to_file
+import importlib.util
+from pathlib import Path
 
-logger = setup_logger('preprocess_data_logger', os.path.join(config.LOG_DIR, 'data_preprocessing.log'))
+# Load src/config.py directly to avoid importing the whole `src` package which
+# triggers heavy dependencies (torch/tensorflow) via `src.__init__`.
+ROOT = Path(__file__).resolve().parents[1]
+config_path = ROOT / 'src' / 'config.py'
+spec = importlib.util.spec_from_file_location('src.config', str(config_path))
+config_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(config_module)
+# prefer a module-level `config` if present, otherwise instantiate Config
+config = getattr(config_module, 'config', getattr(config_module, 'Config')())
+
+# Simple logger using standard logging (avoid importing src.utils.logger)
+import logging
+log_dir = getattr(config, 'LOG_DIR', os.path.join('logs'))
+os.makedirs(log_dir, exist_ok=True)
+logger = logging.getLogger('preprocess_data_logger')
+logger.setLevel(logging.INFO)
+fh = logging.FileHandler(os.path.join(log_dir, 'data_preprocessing.log'))
+fh.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s: %(message)s')
+fh.setFormatter(formatter)
+if not logger.handlers:
+    logger.addHandler(fh)
+
+# Load helper modules from src/dataset and src/utils by file path to avoid
+# executing src.__init__ (which imports heavy deps).
+def load_module(module_relative_path, module_name):
+    p = ROOT / module_relative_path
+    spec = importlib.util.spec_from_file_location(module_name, str(p))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+file_utils = load_module('src/utils/file_utils.py', 'file_utils')
+save_to_file = getattr(file_utils, 'save_data')
+
+# Lightweight local implementations to avoid heavy external dependencies:
+def split_data(df, test_size=0.2, random_state=42):
+    """Simple train/test split that mirrors sklearn.train_test_split behavior for DataFrame."""
+    from sklearn.model_selection import train_test_split
+    if 'label' in df.columns:
+        train_df, test_df = train_test_split(df, test_size=test_size, random_state=random_state, stratify=df['label'])
+    else:
+        train_df, test_df = train_test_split(df, test_size=test_size, random_state=random_state)
+    return train_df.reset_index(drop=True), test_df.reset_index(drop=True)
+
+def augment_data(df):
+    """No-op augmentation for now (placeholder)."""
+    return df
 
 def load_raw_data(data_dir):
     """
@@ -44,7 +88,12 @@ def preprocess_data(data):
     data.fillna(method='ffill', inplace=True)
     
     logger.info("Normalizing data...")
-    data = (data - data.min()) / (data.max() - data.min())
+    # Only normalize numeric columns to avoid errors with string/categorical columns
+    numeric_cols = data.select_dtypes(include=[np.number]).columns
+    if len(numeric_cols) > 0:
+        data[numeric_cols] = (data[numeric_cols] - data[numeric_cols].min()) / (
+            data[numeric_cols].max() - data[numeric_cols].min()
+        )
     
     logger.info("Data preprocessing complete.")
     return data

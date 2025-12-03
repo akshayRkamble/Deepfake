@@ -59,6 +59,38 @@ def log_metrics(metrics, logger_name='metrics_logger', log_file='metrics.log'):
     logger.removeHandler(handler)
     handler.close()
 
+def plot_metrics(history, metric='accuracy', output_dir='logs', filename='metrics.png'):
+    """
+    Plotting training and validation metrics.
+    :param history: Training history object or dict with metric values
+    :param metric: Metric to plot (e.g., 'accuracy', 'loss')
+    :param output_dir: Directory to save the plot
+    :param filename: Name of the output file
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    plt.figure(figsize=(10, 6))
+    
+    # Handle both keras History objects and dictionaries
+    if hasattr(history, 'history'):
+        hist_data = history.history
+    else:
+        hist_data = history
+    
+    if metric in hist_data:
+        plt.plot(hist_data[metric], label='Train')
+        if f'val_{metric}' in hist_data:
+            plt.plot(hist_data[f'val_{metric}'], label='Validation')
+    
+    plt.title(f'Model {metric}')
+    plt.ylabel(metric)
+    plt.xlabel('Epoch')
+    plt.legend()
+    plt.savefig(os.path.join(output_dir, filename))
+    plt.close()
+    logging.info(f"{metric} plot saved to {os.path.join(output_dir, filename)}")
+
 if __name__ == "__main__":
     true_labels = [0, 1, 1, 0, 1]
     predictions = [0, 1, 0, 0, 1]

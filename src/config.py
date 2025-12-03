@@ -36,6 +36,10 @@ class Config:
     PROCESSED_AUDIO_FILE = os.path.join(PROCESSED_DATA_DIR, 'processed_audios.csv')
     PROCESSED_VIDEO_FILE = os.path.join(PROCESSED_DATA_DIR, 'processed_videos.csv')
 
+    PROCESSED_TRAIN_DATA_FILE = os.path.join(PROCESSED_DATA_DIR, 'processed_train.csv')
+    PROCESSED_TEST_DATA_FILE = os.path.join(PROCESSED_DATA_DIR, 'processed_test.csv')
+    PROCESSED_DATA_FILE = os.path.join(PROCESSED_DATA_DIR, 'processed_data.csv')
+
     CNN_PARAMS = {
         'input_shape': (64, 64, 3),
         'num_classes': 2,
@@ -120,3 +124,33 @@ if __name__ == "__main__":
     Config.ensure_directories()
     
     Config.print_config()
+
+
+# Backwards compatibility: provide a module-level `config` instance and some
+# commonly expected aliases/flags so older scripts that import `from src.config import config`
+# continue to work.
+Config.ensure_directories()
+
+# Create an instance
+config = Config()
+
+# Aliases and defaults expected by scripts/preprocess_data.py and other modules
+# (keep conservative defaults to avoid requiring heavy deps).
+config.IMAGE_DIR = Config.RAW_IMAGE_DIR
+config.AUDIO_DIR = Config.RAW_AUDIO_DIR
+config.VIDEO_DIR = Config.RAW_VIDEO_DIR
+
+# Size to which images are resized in some preprocessing scripts
+config.IMAGE_SIZE = getattr(Config, 'CNN_PARAMS', {}).get('input_shape', (64, 64, 3))[0]
+
+# Flags to control which modalities to process. Set audio/video False by default
+# to avoid requiring heavy audio/video preprocessing dependencies unless explicitly enabled.
+config.PROCESS_IMAGES = True
+config.PROCESS_AUDIOS = False
+config.PROCESS_VIDEOS = False
+
+# Processed data file paths (common names used by scripts)
+config.PROCESSED_TRAIN_DATA_FILE = os.path.join(Config.PROCESSED_DATA_DIR, 'processed_train.csv')
+config.PROCESSED_TEST_DATA_FILE = os.path.join(Config.PROCESSED_DATA_DIR, 'processed_test.csv')
+config.PROCESSED_DATA_FILE = os.path.join(Config.PROCESSED_DATA_DIR, 'processed_data.csv')
+

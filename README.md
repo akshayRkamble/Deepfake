@@ -104,9 +104,7 @@ multidisciplinary-deepfake-detection/
 ### Installation
 
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/HacktivSpace/multidisciplinary-deepfake-detection.git
-    cd multidisciplinary-deepfake-detection
+
     ```
 
 2. **Set up the environment:**
@@ -196,4 +194,4 @@ This project supports Docker to simplify setup and deployment. The `Dockerfile` 
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License. By using this software, you agree to the terms stated in the [LICENSE](LICENSE) file.
-```
+``` 

@@ -8,6 +8,21 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import logging
 
+def load_csv_data(csv_path):
+    """
+    Load data from a CSV file.
+    :param csv_path: Path to the CSV file
+    :return: DataFrame containing the data
+    """
+    logger = logging.getLogger('data_loader_logger')
+    try:
+        data = pd.read_csv(csv_path)
+        logger.info(f"Loaded data from {csv_path} with shape {data.shape}")
+        return data
+    except Exception as e:
+        logger.error(f"Error loading data from {csv_path}: {e}", exc_info=True)
+        raise
+
 class CustomDataset(Dataset):
     def __init__(self, data_csv, file_dir, transform=None, file_type='image'):
         """

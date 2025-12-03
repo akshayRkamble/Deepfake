@@ -15,6 +15,32 @@ fh.setFormatter(formatter)
 
 logger.addHandler(fh)
 
+def preprocess_data(data, target_column=None):
+    """
+    Preprocess data by scaling numerical features and encoding categorical features.
+    :param data: DataFrame or data to preprocess
+    :param target_column: Name of target column (optional)
+    :return: Preprocessed data (same shape as input)
+    """
+    logger.info("Starting data preprocessing.")
+    try:
+        if isinstance(data, pd.DataFrame):
+            df = data.copy()
+        else:
+            return data
+        
+        # Scale numerical features only
+        numerical_features = df.select_dtypes(include=['int64', 'float64']).columns
+        scaler = StandardScaler()
+        df[numerical_features] = scaler.fit_transform(df[numerical_features])
+        
+        logger.info("Data preprocessing completed successfully.")
+        return df
+    except Exception as e:
+        logger.error(f"Error during preprocessing: {e}")
+        return data
+
+
 class DataPreprocessor:
     def __init__(self):
         """

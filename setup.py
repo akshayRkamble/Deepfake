@@ -11,9 +11,9 @@ setup(
     description="A multidisciplinary deepfake detection system using images, audios, and videos.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/HacktivSpace/multidisciplinary-deepfake-detection",
+    url="#",
     project_urls={
-        "Bug Tracker": "https://github.com/HacktivSpace/multidisciplinary-deepfake-detection/issues",
+        "Bug Tracker": "#",
     },
     classifiers=[
         "Programming Language :: Python :: 3",

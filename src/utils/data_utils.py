@@ -1,6 +1,30 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+def load_data(filepath: str) -> pd.DataFrame:
+    """
+    Load data from a CSV file.
+    :param filepath: Path to the CSV file
+    :return: DataFrame containing the loaded data
+    """
+    try:
+        return pd.read_csv(filepath)
+    except Exception as e:
+        print(f"Error loading data from {filepath}: {e}")
+        raise
+
+def save_data(data: pd.DataFrame, filepath: str):
+    """
+    Save data to a CSV file.
+    :param data: DataFrame to save
+    :param filepath: Path to save the CSV file
+    """
+    try:
+        data.to_csv(filepath, index=False)
+    except Exception as e:
+        print(f"Error saving data to {filepath}: {e}")
+        raise
+
 def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
     """
     Preprocessing the input data by filling missing values, normalizing features, etc.

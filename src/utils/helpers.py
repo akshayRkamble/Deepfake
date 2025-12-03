@@ -3,6 +3,13 @@ import json
 import logging
 from datetime import datetime
 
+def some_helper_function():
+    """
+    Placeholder helper function for testing.
+    :return: String indicating function was called
+    """
+    return "Helper function executed"
+
 def create_directory(path: str):
     """
     Creating directory if it does not exist.

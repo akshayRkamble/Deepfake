@@ -2,6 +2,29 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import logging
 
+def split_data(X, y=None, test_size=0.2, random_state=42):
+    """
+    Splitting data into training and test sets.
+    :param X: Features or full DataFrame
+    :param y: Target column (optional)
+    :param test_size: Proportion of test set
+    :param random_state: Random seed
+    :return: Tuple of (X_train, X_test) or (X_train, X_test, y_train, y_test)
+    """
+    logger = logging.getLogger('data_splitter_logger')
+    try:
+        if y is not None:
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+            logger.info(f"Data split: {X_train.shape[0]} train, {X_test.shape[0]} test")
+            return X_train, X_test, y_train, y_test
+        else:
+            X_train, X_test = train_test_split(X, test_size=test_size, random_state=random_state)
+            logger.info(f"Data split: {X_train.shape[0]} train, {X_test.shape[0]} test")
+            return X_train, X_test
+    except Exception as e:
+        logger.error(f"Error during data splitting: {e}", exc_info=True)
+        raise
+
 class DataSplitter:
     def __init__(self, test_size=0.2, val_size=0.1, random_state=42):
         """

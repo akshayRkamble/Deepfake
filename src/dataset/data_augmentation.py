@@ -1,5 +1,5 @@
 from albumentations import (
-    Compose, HorizontalFlip, VerticalFlip, RandomRotate90, Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, IAAPiecewiseAffine
+    Compose, HorizontalFlip, VerticalFlip, RandomRotate90, Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, Affine
 )
 from albumentations.pytorch import ToTensorV2
 import numpy as np
@@ -22,7 +22,7 @@ class DataAugmentation:
             Blur(blur_limit=3, p=0.5),
             OpticalDistortion(distort_limit=0.05, shift_limit=0.05, p=0.5),
             GridDistortion(p=0.5),
-            IAAPiecewiseAffine(p=0.5),
+            Affine(scale=(0.95, 1.05), translate_percent=0.05, rotate=45, p=0.5),
             ToTensorV2()
         ])
 

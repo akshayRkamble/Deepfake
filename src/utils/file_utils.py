@@ -72,6 +72,21 @@ def create_directory(path: str):
         os.makedirs(path)
     logging.info(f"Directory created at {path}")
 
+def delete_file(filepath: str):
+    """
+    Delete a file if it exists.
+    :param filepath: Path to the file to delete
+    """
+    try:
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            logging.info(f"File deleted: {filepath}")
+        else:
+            logging.warning(f"File does not exist: {filepath}")
+    except Exception as e:
+        logging.error(f"Error deleting file {filepath}: {e}")
+        raise
+
 if __name__ == "__main__":
     create_directory('example_dir')
 
