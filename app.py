@@ -11,6 +11,7 @@ import numpy as np
 import os
 import torch
 import joblib
+import requests
 from PIL import Image, ImageDraw, ImageFont
 import io
 
@@ -110,29 +111,77 @@ def load_models():
     """Load all trained models."""
     models = {}
     model_dir = "models/saved_models"
-    
+
+    # Helper: determine base URL from secrets or env var
+    def get_model_base_url():
+        # Streamlit Cloud secrets take precedence
+        try:
+            base = st.secrets.get("MODEL_BASE_URL") if hasattr(st, "secrets") else None
+        except Exception:
+            base = None
+        if not base:
+            base = os.environ.get("MODEL_BASE_URL")
+        return base
+
+    # Helper: ensure local file exists, download from base_url if provided
+    def ensure_file(filename):
+        os.makedirs(model_dir, exist_ok=True)
+        local_path = os.path.join(model_dir, filename)
+        if os.path.exists(local_path):
+            return local_path
+
+        base = get_model_base_url()
+        if not base:
+            logger.warning(f"Model {filename} not found locally and no MODEL_BASE_URL configured")
+            return None
+
+        url = base.rstrip("/") + f"/models/saved_models/{filename}"
+        logger.info(f"Downloading model from {url} ...")
+        try:
+            resp = requests.get(url, stream=True, timeout=60)
+            resp.raise_for_status()
+            with open(local_path, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+            logger.info(f"Downloaded {filename} to {local_path}")
+            return local_path
+        except Exception as e:
+            logger.error(f"Failed to download {filename} from {url}: {e}")
+            return None
+
+    # Files to attempt to load
+    candidates = {
+        'svm': 'svm_model.pkl',
+        'bayesian': 'bayesian_model.pkl',
+        'cnn': 'cnn_model.pth',
+        'transformer': 'transformer_model.pth',
+        'vision_transformer': 'vision_transformer_model.pth'
+    }
+
+    # Load classical models first
+    # SVM
     try:
-        # Load SVM model
-        svm_path = os.path.join(model_dir, "svm_model.pkl")
-        if os.path.exists(svm_path):
+        svm_path = ensure_file(candidates['svm'])
+        if svm_path:
             models['svm'] = joblib.load(svm_path)
             logger.info("✓ SVM model loaded")
     except Exception as e:
         logger.error(f"Error loading SVM: {e}")
-    
+
+    # Bayesian
     try:
-        # Load Bayesian model
-        bayes_path = os.path.join(model_dir, "bayesian_model.pkl")
-        if os.path.exists(bayes_path):
+        bayes_path = ensure_file(candidates['bayesian'])
+        if bayes_path:
             models['bayesian'] = joblib.load(bayes_path)
             logger.info("✓ Bayesian model loaded")
     except Exception as e:
         logger.error(f"Error loading Bayesian: {e}")
-    
+
+    # CNN (PyTorch)
     try:
-        # Load CNN model (PyTorch)
-        cnn_path = os.path.join(model_dir, "cnn_model.pth")
-        if os.path.exists(cnn_path):
+        cnn_path = ensure_file(candidates['cnn'])
+        if cnn_path:
             from src.models.cnn import CNNModel
             cnn_model = CNNModel(num_classes=2, input_channels=1)
             cnn_model.load_state_dict(torch.load(cnn_path, map_location='cpu'))
@@ -141,11 +190,11 @@ def load_models():
             logger.info("✓ CNN model loaded")
     except Exception as e:
         logger.error(f"Error loading CNN: {e}")
-    
+
+    # Transformer
     try:
-        # Load Transformer model
-        transformer_path = os.path.join(model_dir, "transformer_model.pth")
-        if os.path.exists(transformer_path):
+        transformer_path = ensure_file(candidates['transformer'])
+        if transformer_path:
             from src.models.transformer import TransformerModel
             transformer = TransformerModel(
                 input_dim=10, model_dim=512, num_heads=8,
@@ -157,7 +206,21 @@ def load_models():
             logger.info("✓ Transformer model loaded")
     except Exception as e:
         logger.error(f"Error loading Transformer: {e}")
-    
+
+    # Vision Transformer
+    try:
+        vit_path = ensure_file(candidates['vision_transformer'])
+        if vit_path:
+            from src.models.vision_transformer import VisionTransformer
+            # instantiate with reasonable defaults - adjust if your checkpoints use different params
+            vit = VisionTransformer(img_size=128, patch_size=16, num_classes=2, dim=512, depth=6, heads=8, mlp_dim=1024)
+            vit.load_state_dict(torch.load(vit_path, map_location='cpu'))
+            vit.eval()
+            models['vision_transformer'] = vit
+            logger.info("✓ Vision Transformer loaded")
+    except Exception as e:
+        logger.error(f"Error loading Vision Transformer: {e}")
+
     return models
 
 # Page: Home
