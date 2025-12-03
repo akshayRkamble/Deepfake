@@ -17,6 +17,7 @@ except Exception:
     np = None
 import random
 import os
+import tempfile
 import torch
 import requests
 from PIL import Image, ImageDraw, ImageFont
@@ -463,8 +464,121 @@ def page_model_testing():
                 if st.button("🔍 Analyze"):
                     run_inference()
         
-        else:
-            st.info(f"📝 {upload_type} inference not yet implemented in this demo")
+        elif upload_type == "🎬 Video":
+            from media_utils import extract_video_frames, get_video_metadata, dummy_video_prediction
+            
+            uploaded_file = st.file_uploader("Upload video", type=['mp4', 'avi', 'mov', 'mkv'])
+            if uploaded_file:
+                # Save uploaded file to temp location
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as tmp_file:
+                    tmp_file.write(uploaded_file.read())
+                    temp_video_path = tmp_file.name
+                
+                try:
+                    # Get video metadata
+                    metadata = get_video_metadata(temp_video_path)
+                    if metadata:
+                        st.info(f"📹 Duration: {metadata['duration_sec']:.1f}s | FPS: {metadata['fps']:.1f} | Resolution: {metadata['width']}x{metadata['height']}")
+                    
+                    # Extract frames
+                    st.write("**Extracting frames...**")
+                    frames = extract_video_frames(temp_video_path, max_frames=8)
+                    
+                    if frames:
+                        st.write(f"**Extracted {len(frames)} frames:**")
+                        cols = st.columns(4)
+                        for idx, frame in enumerate(frames):
+                            with cols[idx % 4]:
+                                st.image(frame, caption=f"Frame {idx+1}", use_container_width='stretch')
+                        
+                        # Frame-by-frame analysis
+                        st.subheader("🔍 Frame-by-Frame Analysis")
+                        use_cnn_video = st.checkbox("Use CNN for video frames", value=True, key="video_cnn")
+                        
+                        if st.button("📊 Analyze Video Frames"):
+                            progress_bar = st.progress(0)
+                            results_list = []
+                            
+                            for idx, frame in enumerate(frames):
+                                try:
+                                    if use_cnn_video and predict_cnn is not None and models.get('cnn'):
+                                        label, confidence = predict_cnn(models['cnn'], np.array(frame) if np else frame)
+                                        results_list.append({'Frame': idx+1, 'Label': label, 'Confidence': f'{confidence:.2%}'})
+                                    else:
+                                        # Dummy prediction fallback
+                                        pred = dummy_video_prediction(1)[0]
+                                        results_list.append({'Frame': idx+1, 'Label': pred['label'], 'Confidence': f"{pred['confidence']:.2%}"})
+                                except Exception as e:
+                                    logger.error(f"Error analyzing frame {idx}: {e}")
+                                    results_list.append({'Frame': idx+1, 'Label': 'Error', 'Confidence': 'N/A'})
+                                
+                                progress_bar.progress((idx + 1) / len(frames))
+                            
+                            # Summary
+                            st.write("**Frame Analysis Results:**")
+                            if pd is not None:
+                                results_df = pd.DataFrame(results_list)
+                                st.dataframe(results_df, use_container_width='stretch', hide_index=True)
+                            else:
+                                st.table(results_list)
+                            
+                            # Overall verdict
+                            fake_count = sum(1 for r in results_list if r['Label'] == 'Fake')
+                            real_count = sum(1 for r in results_list if r['Label'] == 'Real')
+                            st.success(f"**Video Verdict**: {fake_count} Fake, {real_count} Real out of {len(frames)} frames")
+                    else:
+                        st.error("❌ Could not extract frames from video (ensure OpenCV is installed)")
+                
+                finally:
+                    # Cleanup temp file
+                    if os.path.exists(temp_video_path):
+                        os.remove(temp_video_path)
+        
+        elif upload_type == "🔊 Audio":
+            from media_utils import analyze_audio_features, dummy_audio_prediction
+            
+            uploaded_file = st.file_uploader("Upload audio", type=['wav', 'mp3', 'flac', 'ogg'])
+            if uploaded_file:
+                # Save uploaded file to temp location
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp_file:
+                    tmp_file.write(uploaded_file.read())
+                    temp_audio_path = tmp_file.name
+                
+                try:
+                    # Play audio preview
+                    st.audio(uploaded_file)
+                    
+                    # Extract audio features
+                    st.write("**Extracting audio features...**")
+                    features = analyze_audio_features(temp_audio_path)
+                    
+                    if features:
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.metric("Duration (sec)", f"{features['duration']:.2f}")
+                            st.metric("Sample Rate (Hz)", f"{features['sample_rate']}")
+                            st.metric("RMS Energy", f"{features['rms_energy']:.4f}")
+                        with col2:
+                            st.metric("Zero Crossing Rate", f"{features['zero_crossing_rate']:.4f}")
+                            st.metric("MFCC Mean", f"{features['mfcc_mean']:.4f}")
+                            st.metric("MFCC Std Dev", f"{features['mfcc_std']:.4f}")
+                        
+                        st.write("**Extracted features can be used for deepfake detection models**")
+                    else:
+                        st.warning("⚠️ Audio feature extraction unavailable (librosa/numpy not installed)")
+                    
+                    # Audio prediction
+                    st.subheader("🎙️ Deepfake Detection")
+                    if st.button("🔍 Detect Audio Deepfake"):
+                        # For now, use dummy prediction (audio models would be integrated here)
+                        prediction = dummy_audio_prediction()
+                        st.success(f"**Prediction**: {prediction['label']} (Confidence: {prediction['confidence']:.2%})")
+                        st.info(prediction['message'])
+                
+                finally:
+                    # Cleanup temp file
+                    if os.path.exists(temp_audio_path):
+                        os.remove(temp_audio_path)
     
     with col2:
         st.subheader("📋 Model Info")
