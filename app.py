@@ -1,5 +1,5 @@
 """
-Multidisciplinary Deepfake Detection - Streamlit UI
+Multimedia Deepfake Detection - Streamlit UI
 
 A comprehensive web application for deepfake detection across multiple modalities
 (images, videos, audio) using various machine learning models.
