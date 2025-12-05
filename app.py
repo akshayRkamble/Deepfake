@@ -315,7 +315,7 @@ def page_model_testing():
     models = load_models()
     
     if not models:
-          show_model_load_warning()
+        show_model_load_warning()
         return
     
     col1, col2 = st.columns([2, 1])
