@@ -370,7 +370,7 @@ def page_model_testing():
             uploaded_file = st.file_uploader("Upload image", type=['jpg', 'png', 'jpeg'])
             if uploaded_file:
                 image = Image.open(uploaded_file).convert('RGB')
-                st.image(image, caption="Uploaded Image", use_container_width='stretch')
+                st.image(image, caption="Uploaded Image", use_container_width=True)
 
                 # Load models
                 if load_all_models is not None:
@@ -489,7 +489,7 @@ def page_model_testing():
                         cols = st.columns(4)
                         for idx, frame in enumerate(frames):
                             with cols[idx % 4]:
-                                st.image(frame, caption=f"Frame {idx+1}", use_container_width='stretch')
+                                st.image(frame, caption=f"Frame {idx+1}", use_container_width=True)
                         
                         # Frame-by-frame analysis
                         st.subheader("🔍 Frame-by-Frame Analysis")
@@ -518,7 +518,7 @@ def page_model_testing():
                             st.write("**Frame Analysis Results:**")
                             if pd is not None:
                                 results_df = pd.DataFrame(results_list)
-                                st.dataframe(results_df, use_container_width='stretch', hide_index=True)
+                                st.dataframe(results_df, use_container_width=True, hide_index=True)
                             else:
                                 st.table(results_list)
                             
@@ -615,7 +615,7 @@ def page_analytics():
             height=400,
             showlegend=False
         )
-        st.plotly_chart(fig, use_container_width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
     
     with col2:
         st.subheader("Prediction Distribution")
@@ -636,7 +636,7 @@ def page_analytics():
             go.Pie(labels=labels, values=values, marker_colors=['#2ca02c', '#d62728'])
         ])
         fig.update_layout(title="Prediction Results", height=400)
-        st.plotly_chart(fig, use_container_width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
     
     st.write("---")
     
@@ -659,7 +659,7 @@ def page_analytics():
             textfont={"size": 16}
         ))
         fig.update_layout(title="Confusion Matrix", height=400)
-        st.plotly_chart(fig, use_container_width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
     
     with col2:
         st.subheader("Performance Metrics")
@@ -668,7 +668,7 @@ def page_analytics():
             'Value': [0.874, 0.852, 0.856, 0.854]
         }
         metrics_df = pd.DataFrame(metrics_data)
-        st.dataframe(metrics_df, use_container_width='stretch', hide_index=True)
+        st.dataframe(metrics_df, use_container_width=True, hide_index=True)
 
 # Page: Model Management
 def page_model_management():
@@ -698,7 +698,7 @@ def page_model_management():
     }
     if pd is not None:
         model_info = pd.DataFrame(model_info_dict)
-        st.dataframe(model_info, use_container_width='stretch', hide_index=True)
+        st.dataframe(model_info, use_container_width=True, hide_index=True)
     else:
         # simple fallback table
         rows = []
