@@ -781,7 +781,7 @@ def page_about():
     MIT License - See LICENSE file for details
     
     ### 👥 Contributors
-    HacktivSpace Team
+    Akshay And Team
     """)
     
     st.write("---")
