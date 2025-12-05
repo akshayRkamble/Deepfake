@@ -807,3 +807,6 @@ st.write("""
     <p>© 2025 Akshay Kamble. All rights reserved.</p>
 </div>
 """, unsafe_allow_html=True)
+
+def show_model_load_warning():
+    st.warning("❌ No models loaded.\n\nTo fix this:\n1. Train your models locally by running:\n   python run_project.py\n   or\n   python train_models.py\n\n2. Upload the trained model files to a public URL (Google Drive, S3, etc.) and set the MODEL_BASE_URL environment variable in Streamlit Cloud.\n\n3. If running locally, place the model files in models/saved_models/.\n\nModel files needed:\n- cnn_model.pth\n- transformer_model.pth\n- vision_transformer_model.pth\n- svm_model.pkl\n- bayesian_model.pkl\n\nSee DEPLOY_MODELS.md for more details.")
