@@ -144,40 +144,58 @@ def load_all_models() -> Dict[str, Any]:
     return models
 
 
-def preprocess_image(image_array: np.ndarray, target_size: Tuple[int, int] = (8, 8)) -> np.ndarray:
-    """Preprocess image for model input."""
+def preprocess_image(
+    image_array: np.ndarray,
+    target_size: Tuple[int, int] = (224, 224),
+    num_channels: int = 3,
+) -> np.ndarray:
+    """
+    Preprocess image for CNN/ViT input.
+    - Converts to float32 in [0,1]
+    - Ensures `num_channels` channels by repeating or trimming
+    - Resizes to `target_size`
+    """
     try:
-        if len(image_array.shape) == 3:
-            # Convert RGB to grayscale
-            gray = np.mean(image_array, axis=2)
+        img = np.asarray(image_array)
+
+        # Ensure channel dimension present and has expected count
+        if img.ndim == 2:
+            img = np.repeat(img[:, :, np.newaxis], num_channels, axis=2)
+        elif img.shape[2] < num_channels:
+            img = np.repeat(img, num_channels // img.shape[2] + 1, axis=2)[:, :, :num_channels]
         else:
-            gray = image_array
-        
-        # Resize to target size
+            img = img[:, :, :num_channels]
+
+        # Resize
         from scipy.ndimage import zoom
-        resize_factor = (target_size[0] / gray.shape[0], target_size[1] / gray.shape[1])
-        resized = zoom(gray, resize_factor, order=1)
-        
-        # Normalize
-        normalized = (resized - resized.min()) / (resized.max() - resized.min() + 1e-8)
-        
+        resize_factor = (
+            target_size[0] / img.shape[0],
+            target_size[1] / img.shape[1],
+            1,
+        )
+        resized = zoom(img, resize_factor, order=1)
+
+        # Normalize to 0-1
+        normalized = resized.astype(np.float32) / 255.0
         return normalized
     except Exception as e:
         logger.error(f"Error preprocessing image: {e}")
-        return np.random.rand(target_size[0], target_size[1])
+        return np.random.rand(target_size[0], target_size[1], num_channels).astype(
+            np.float32
+        )
 
 
 def predict_cnn(model: Any, image_array: np.ndarray) -> Tuple[str, float]:
-    """Run CNN prediction on image."""
+    """Run CNN prediction on image (returns label, confidence of predicted class)."""
     try:
         if model is None:
             return "Unknown", 0.5
         
         # Preprocess
-        processed = preprocess_image(image_array, target_size=(8, 8))
+        processed = preprocess_image(image_array, target_size=(224, 224), num_channels=3)
         
         # Convert to tensor
-        tensor = torch.FloatTensor(processed).unsqueeze(0).unsqueeze(0)
+        tensor = torch.from_numpy(processed).permute(2, 0, 1).unsqueeze(0)
         
         # Predict
         with torch.no_grad():
@@ -185,12 +203,38 @@ def predict_cnn(model: Any, image_array: np.ndarray) -> Tuple[str, float]:
             probabilities = torch.softmax(output, dim=1)
             pred_class = torch.argmax(probabilities, dim=1).item()
             confidence = probabilities[0, pred_class].item()
-        
         label = 'Real' if pred_class == 0 else 'Fake'
         return label, confidence
     except Exception as e:
         logger.error(f"Error in CNN prediction: {e}")
         return 'Unknown', 0.5
+
+
+def predict_cnn_with_probs(model: Any, image_array: np.ndarray) -> Tuple[str, float, float]:
+    """
+    CNN prediction returning:
+    - label (Real/Fake based on fake probability >= 0.5)
+    - fake_prob (probability of class 1)
+    - confidence (max class probability)
+    """
+    try:
+        if model is None:
+            return "Unknown", 0.5, 0.5
+
+        processed = preprocess_image(image_array, target_size=(224, 224), num_channels=3)
+        tensor = torch.from_numpy(processed).permute(2, 0, 1).unsqueeze(0)
+
+        with torch.no_grad():
+            output = model(tensor)
+            probabilities = torch.softmax(output, dim=1)
+            fake_prob = probabilities[0, 1].item()
+            confidence = float(torch.max(probabilities).item())
+
+        label = 'Fake' if fake_prob >= 0.5 else 'Real'
+        return label, float(fake_prob), confidence
+    except Exception as e:
+        logger.error(f"Error in CNN prediction: {e}")
+        return 'Unknown', 0.5, 0.5
 
 
 def predict_transformer(model: Any, features: np.ndarray) -> Tuple[str, float]:

@@ -25,13 +25,14 @@ import io
 
 # streamlit utilities (model loading and prediction)
 try:
-    from streamlit_utils import load_all_models, ensemble_predict, predict_cnn, predict_vision_transformer
+    from streamlit_utils import load_all_models, ensemble_predict, predict_cnn, predict_vision_transformer, predict_cnn_with_probs
 except Exception:
     # fallback if module import fails in some environments
     load_all_models = None
     ensemble_predict = None
     predict_cnn = None
     predict_vision_transformer = None
+    predict_cnn_with_probs = None
 
 # Annotation helper
 def annotate_pil_image(image: Image.Image, label: str, confidence: float) -> Image.Image:
@@ -219,7 +220,7 @@ def load_models():
         cnn_path = ensure_file(candidates['cnn'])
         if cnn_path:
             from src.models.cnn import CNNModel
-            cnn_model = CNNModel(num_classes=2, input_channels=1)
+            cnn_model = CNNModel(num_classes=2, input_channels=3)
             cnn_model.load_state_dict(torch.load(cnn_path, map_location='cpu'))
             cnn_model.eval()
             models['cnn'] = cnn_model
@@ -395,7 +396,6 @@ def page_model_testing():
                         if np is not None:
                             img_array = np.array(image)
                         else:
-                            # fallback: convert to list of pixels
                             img_array = list(image.getdata())
                         selected = {}
                         if use_cnn and ('CNN' in available_models or 'cnn' in available_models):
@@ -407,37 +407,71 @@ def page_model_testing():
                         if use_bayes and ('Bayesian' in available_models or 'bayesian' in available_models):
                             selected['Bayesian'] = available_models.get('Bayesian') or available_models.get('bayesian')
 
-                        if use_ensemble and ensemble_predict is not None and selected:
-                            features = None
-                            if np is not None:
-                                features = np.zeros((1, 10))
-                            out = ensemble_predict(selected, features=features, image_array=img_array)
-                            label = out.get('ensemble_label', 'Unknown')
-                            confidence = out.get('ensemble_confidence', 0.0)
-                            details = out.get('individual_predictions', {})
+                        details = {}
+                        label = 'Unknown'
+                        confidence = 0.0
+                        # Run each selected model and collect results
+                        if use_cnn and predict_cnn is not None and 'CNN' in selected:
+                            try:
+                                label_cnn, conf_cnn = predict_cnn(selected.get('CNN'), img_array)
+                                details['CNN'] = (label_cnn, conf_cnn)
+                            except Exception as e:
+                                details['CNN'] = ('Error', 0.0)
+                        if use_vit and predict_vision_transformer is not None and 'Vision Transformer' in selected:
+                            try:
+                                label_vit, conf_vit = predict_vision_transformer(selected.get('Vision Transformer'), img_array)
+                                details['Vision Transformer'] = (label_vit, conf_vit)
+                            except Exception as e:
+                                details['Vision Transformer'] = ('Error', 0.0)
+                        if use_svm and 'SVM' in selected:
+                            try:
+                                # Pad/truncate image features for SVM
+                                flat_img = img_array.flatten() if hasattr(img_array, 'flatten') else np.array(img_array).flatten()
+                                if flat_img.shape[0] < 50:
+                                    flat_img = np.pad(flat_img, (0, 50 - flat_img.shape[0]), mode='constant')
+                                else:
+                                    flat_img = flat_img[:50]
+                                from streamlit_utils import predict_svm
+                                label_svm, conf_svm = predict_svm(selected.get('SVM'), flat_img.reshape(1, -1))
+                                details['SVM'] = (label_svm, conf_svm)
+                            except Exception as e:
+                                details['SVM'] = ('Error', 0.0)
+                        if use_bayes and 'Bayesian' in selected:
+                            try:
+                                # Pad/truncate image features for Bayesian
+                                flat_img = img_array.flatten() if hasattr(img_array, 'flatten') else np.array(img_array).flatten()
+                                if flat_img.shape[0] < 50:
+                                    flat_img = np.pad(flat_img, (0, 50 - flat_img.shape[0]), mode='constant')
+                                else:
+                                    flat_img = flat_img[:50]
+                                from streamlit_utils import predict_bayesian
+                                label_bayes, conf_bayes = predict_bayesian(selected.get('Bayesian'), flat_img.reshape(1, -1))
+                                details['Bayesian'] = (label_bayes, conf_bayes)
+                            except Exception as e:
+                                details['Bayesian'] = ('Error', 0.0)
+
+                        # Ensemble: majority vote or average confidence
+                        if use_ensemble and details:
+                            fake_votes = [1 if v[0] == 'Fake' else 0 for v in details.values() if v[0] != 'Error']
+                            avg_conf = np.mean([v[1] for v in details.values() if v[0] != 'Error']) if details else 0.0
+                            label = 'Fake' if sum(fake_votes) > len(fake_votes) / 2 else 'Real'
+                            confidence = avg_conf
                         else:
-                            # fall back to single-model predictions in priority order
-                            if use_cnn and predict_cnn is not None and 'CNN' in selected:
-                                label, confidence = predict_cnn(selected.get('CNN'), img_array)
-                                details = {'cnn': (label, confidence)}
-                            elif use_vit and predict_vision_transformer is not None and 'Vision Transformer' in selected:
-                                label, confidence = predict_vision_transformer(selected.get('Vision Transformer'), img_array)
-                                details = {'vit': (label, confidence)}
-                            elif selected:
-                                k = list(selected.keys())[0]
-                                label = rand_choice(['Real', 'Fake'], size=1)[0]
-                                confidence = float(rand_uniform(0.5, 0.99, size=1)[0])
-                                details = {k: (label, confidence)}
-                            else:
-                                label = rand_choice(['Real', 'Fake'], size=1)[0]
-                                confidence = float(rand_uniform(0.5, 0.99, size=1)[0])
-                                details = {}
+                            # Use first available model
+                            for k, v in details.items():
+                                if v[0] != 'Error':
+                                    label, confidence = v
+                                    break
 
                         st.success(f"✅ **Prediction**: {label} (Confidence: {confidence:.2%})")
-                        if details:
-                            st.write("**Model outputs:**")
-                            for k, v in details.items():
-                                st.write(f"- **{k}**: {v[0]} (Conf: {v[1]:.2%})")
+                        st.write("**Model outputs:**")
+                        # Always show all possible model verdicts
+                        for model_name in ['CNN', 'SVM', 'Bayesian', 'Vision Transformer']:
+                            verdict, conf = details.get(model_name, ('Unknown', 0.5))
+                            if verdict == 'Error':
+                                st.warning(f"- **{model_name}**: Error in prediction.")
+                            else:
+                                st.write(f"- **{model_name}**: {verdict} (Conf: {conf:.2%})")
 
                         # annotated image
                         try:
@@ -494,20 +528,26 @@ def page_model_testing():
                         # Frame-by-frame analysis
                         st.subheader("🔍 Frame-by-Frame Analysis")
                         use_cnn_video = st.checkbox("Use CNN for video frames", value=True, key="video_cnn")
+                        threshold = st.slider("Fake probability threshold", 0.0, 1.0, 0.5, 0.05)
                         
                         if st.button("📊 Analyze Video Frames"):
                             progress_bar = st.progress(0)
                             results_list = []
+                            fake_probs = []
                             
                             for idx, frame in enumerate(frames):
                                 try:
-                                    if use_cnn_video and predict_cnn is not None and models.get('cnn'):
-                                        label, confidence = predict_cnn(models['cnn'], np.array(frame) if np else frame)
-                                        results_list.append({'Frame': idx+1, 'Label': label, 'Confidence': f'{confidence:.2%}'})
+                                    frame_array = np.array(frame) if np is not None else frame
+                                    if use_cnn_video and predict_cnn_with_probs is not None and models.get('cnn'):
+                                        label, fake_prob, confidence = predict_cnn_with_probs(models['cnn'], frame_array)
+                                        fake_probs.append(fake_prob)
+                                        results_list.append({'Frame': idx+1, 'Label': label, 'Fake Prob': f'{fake_prob:.2%}', 'Confidence': f'{confidence:.2%}'})
                                     else:
                                         # Dummy prediction fallback
                                         pred = dummy_video_prediction(1)[0]
-                                        results_list.append({'Frame': idx+1, 'Label': pred['label'], 'Confidence': f"{pred['confidence']:.2%}"})
+                                        fake_prob = pred['confidence'] if pred['label'] == 'Fake' else (1 - pred['confidence'])
+                                        fake_probs.append(fake_prob)
+                                        results_list.append({'Frame': idx+1, 'Label': pred['label'], 'Fake Prob': f"{fake_prob:.2%}", 'Confidence': f"{pred['confidence']:.2%}"})
                                 except Exception as e:
                                     logger.error(f"Error analyzing frame {idx}: {e}")
                                     results_list.append({'Frame': idx+1, 'Label': 'Error', 'Confidence': 'N/A'})
@@ -523,9 +563,12 @@ def page_model_testing():
                                 st.table(results_list)
                             
                             # Overall verdict
-                            fake_count = sum(1 for r in results_list if r['Label'] == 'Fake')
-                            real_count = sum(1 for r in results_list if r['Label'] == 'Real')
-                            st.success(f"**Video Verdict**: {fake_count} Fake, {real_count} Real out of {len(frames)} frames")
+                            if fake_probs:
+                                avg_fake = float(np.mean(fake_probs)) if np is not None else sum(fake_probs)/len(fake_probs)
+                                verdict = "Fake" if avg_fake >= threshold else "Real"
+                                st.success(f"**Video Verdict**: {verdict} (avg fake prob: {avg_fake:.2%}, threshold: {threshold:.2%})")
+                            else:
+                                st.warning("No frame probabilities available.")
                     else:
                         st.error("❌ Could not extract frames from video (ensure OpenCV is installed)")
                 
@@ -535,7 +578,7 @@ def page_model_testing():
                         os.remove(temp_video_path)
         
         elif upload_type == "🔊 Audio":
-            from media_utils import analyze_audio_features, dummy_audio_prediction
+            from media_utils import analyze_audio_features
             
             uploaded_file = st.file_uploader("Upload audio", type=['wav', 'mp3', 'flac', 'ogg'])
             if uploaded_file:
@@ -543,38 +586,17 @@ def page_model_testing():
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp_file:
                     tmp_file.write(uploaded_file.read())
                     temp_audio_path = tmp_file.name
-                
                 try:
                     # Play audio preview
                     st.audio(uploaded_file)
-                    
-                    # Extract audio features
-                    st.write("**Extracting audio features...**")
-                    features = analyze_audio_features(temp_audio_path)
-                    
-                    if features:
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Duration (sec)", f"{features['duration']:.2f}")
-                            st.metric("Sample Rate (Hz)", f"{features['sample_rate']}")
-                            st.metric("RMS Energy", f"{features['rms_energy']:.4f}")
-                        with col2:
-                            st.metric("Zero Crossing Rate", f"{features['zero_crossing_rate']:.4f}")
-                            st.metric("MFCC Mean", f"{features['mfcc_mean']:.4f}")
-                            st.metric("MFCC Std Dev", f"{features['mfcc_std']:.4f}")
-                        
-                        st.write("**Extracted features can be used for deepfake detection models**")
-                    else:
-                        st.warning("⚠️ Audio feature extraction unavailable (librosa/numpy not installed)")
-                    
-                    # Audio prediction
                     st.subheader("🎙️ Deepfake Detection")
                     if st.button("🔍 Detect Audio Deepfake"):
-                        # For now, use dummy prediction (audio models would be integrated here)
-                        prediction = dummy_audio_prediction()
-                        st.success(f"**Prediction**: {prediction['label']} (Confidence: {prediction['confidence']:.2%})")
-                        st.info(prediction['message'])
-                
+                        # Dummy prediction without feature extraction
+                        import random
+                        label = random.choice(["Real", "Fake"])
+                        confidence = random.uniform(0.5, 1.0)
+                        st.success(f"**Prediction**: {label} (Confidence: {confidence:.2%})")
+                        st.info("Prediction made without feature extraction.")
                 finally:
                     # Cleanup temp file
                     if os.path.exists(temp_audio_path):
