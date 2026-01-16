@@ -64,6 +64,19 @@ def main():
     
     print("\nProject successfully running!")
     print(f"Final model accuracy: {accuracy:.3f}")
+
+    # Plagiarism checker demo
+    print("\n--- Plagiarism Checker Demo ---")
+    try:
+        from src.models.plagiarism_checker import PlagiarismChecker
+        checker = PlagiarismChecker()
+        sample_text = "Artificial intelligence is transforming the world."
+        report = checker.generate_report(sample_text)
+        print("Plagiarism Report:")
+        print(report)
+    except Exception as e:
+        print(f"Plagiarism checker error: {e}")
+
     print("\nProject structure:")
     for root, dirs, files in os.walk('.'):
         level = root.replace('.', '').count(os.sep)

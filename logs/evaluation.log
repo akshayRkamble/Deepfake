@@ -312,3 +312,533 @@ RuntimeError: Error(s) in loading state_dict for VisionTransformer:
 	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
 	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
 	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+2026-01-15 17:39:01,055 evaluation_logger INFO: Evaluating CNN model...
+2026-01-15 17:39:01,461 evaluation_logger WARNING: Could not load Keras model (TensorFlow not available). Skipping CNN evaluation.
+2026-01-15 17:39:01,462 evaluation_logger INFO: Evaluating Transformer model...
+2026-01-15 17:39:02,541 evaluation_logger ERROR: Error evaluating Transformer model: 'collections.OrderedDict' object has no attribute 'eval'
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 56, in evaluate_transformer
+    model.eval()
+    ^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'eval'
+2026-01-15 17:39:02,548 evaluation_logger INFO: Evaluating SVM model...
+2026-01-15 17:39:02,560 evaluation_logger ERROR: Error evaluating SVM model: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 82, in evaluate_svm
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+2026-01-15 17:39:02,633 evaluation_logger INFO: Evaluating Bayesian model...
+2026-01-15 17:39:02,641 evaluation_logger ERROR: Error evaluating Bayesian model: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 108, in evaluate_bayesian
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+2026-01-15 17:39:02,643 evaluation_logger INFO: Evaluating Vision Transformer model...
+2026-01-15 17:39:03,254 evaluation_logger ERROR: Error evaluating Vision Transformer model: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 138, in evaluate_vision_transformer
+    model.load_state_dict(torch.load(model_path))
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\AMG-Project\Multimodel\.venv\Lib\site-packages\torch\nn\modules\module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+2026-01-15 17:39:18,443 evaluation_logger INFO: Evaluating CNN model...
+2026-01-15 17:39:18,444 evaluation_logger WARNING: Could not load Keras model (TensorFlow not available). Skipping CNN evaluation.
+2026-01-15 17:39:18,445 evaluation_logger INFO: Evaluating Transformer model...
+2026-01-15 17:39:18,504 evaluation_logger ERROR: Error evaluating Transformer model: 'collections.OrderedDict' object has no attribute 'eval'
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 56, in evaluate_transformer
+    model.eval()
+    ^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'eval'
+2026-01-15 17:39:18,506 evaluation_logger INFO: Evaluating SVM model...
+2026-01-15 17:39:18,507 evaluation_logger ERROR: Error evaluating SVM model: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 82, in evaluate_svm
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+2026-01-15 17:39:18,510 evaluation_logger INFO: Evaluating Bayesian model...
+2026-01-15 17:39:18,511 evaluation_logger ERROR: Error evaluating Bayesian model: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 108, in evaluate_bayesian
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+2026-01-15 17:39:18,513 evaluation_logger INFO: Evaluating Vision Transformer model...
+2026-01-15 17:39:19,078 evaluation_logger ERROR: Error evaluating Vision Transformer model: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 138, in evaluate_vision_transformer
+    model.load_state_dict(torch.load(model_path))
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\AMG-Project\Multimodel\.venv\Lib\site-packages\torch\nn\modules\module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+2026-01-15 17:39:33,828 evaluation_logger INFO: Evaluating CNN model...
+2026-01-15 17:39:33,829 evaluation_logger WARNING: Could not load Keras model (TensorFlow not available). Skipping CNN evaluation.
+2026-01-15 17:39:33,830 evaluation_logger INFO: Evaluating Transformer model...
+2026-01-15 17:39:33,892 evaluation_logger ERROR: Error evaluating Transformer model: 'collections.OrderedDict' object has no attribute 'eval'
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 56, in evaluate_transformer
+    model.eval()
+    ^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'eval'
+2026-01-15 17:39:33,894 evaluation_logger INFO: Evaluating SVM model...
+2026-01-15 17:39:33,895 evaluation_logger ERROR: Error evaluating SVM model: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 82, in evaluate_svm
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+2026-01-15 17:39:33,897 evaluation_logger INFO: Evaluating Bayesian model...
+2026-01-15 17:39:33,897 evaluation_logger ERROR: Error evaluating Bayesian model: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 108, in evaluate_bayesian
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+2026-01-15 17:39:33,899 evaluation_logger INFO: Evaluating Vision Transformer model...
+2026-01-15 17:39:34,436 evaluation_logger ERROR: Error evaluating Vision Transformer model: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 138, in evaluate_vision_transformer
+    model.load_state_dict(torch.load(model_path))
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\AMG-Project\Multimodel\.venv\Lib\site-packages\torch\nn\modules\module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+2026-01-15 17:39:49,060 evaluation_logger INFO: Evaluating CNN model...
+2026-01-15 17:39:49,061 evaluation_logger WARNING: Could not load Keras model (TensorFlow not available). Skipping CNN evaluation.
+2026-01-15 17:39:49,062 evaluation_logger INFO: Evaluating Transformer model...
+2026-01-15 17:39:49,124 evaluation_logger ERROR: Error evaluating Transformer model: 'collections.OrderedDict' object has no attribute 'eval'
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 56, in evaluate_transformer
+    model.eval()
+    ^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'eval'
+2026-01-15 17:39:49,126 evaluation_logger INFO: Evaluating SVM model...
+2026-01-15 17:39:49,127 evaluation_logger ERROR: Error evaluating SVM model: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 82, in evaluate_svm
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+2026-01-15 17:39:49,129 evaluation_logger INFO: Evaluating Bayesian model...
+2026-01-15 17:39:49,130 evaluation_logger ERROR: Error evaluating Bayesian model: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 108, in evaluate_bayesian
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+2026-01-15 17:39:49,131 evaluation_logger INFO: Evaluating Vision Transformer model...
+2026-01-15 17:39:49,672 evaluation_logger ERROR: Error evaluating Vision Transformer model: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 138, in evaluate_vision_transformer
+    model.load_state_dict(torch.load(model_path))
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\AMG-Project\Multimodel\.venv\Lib\site-packages\torch\nn\modules\module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+2026-01-15 17:40:04,611 evaluation_logger INFO: Evaluating CNN model...
+2026-01-15 17:40:04,612 evaluation_logger WARNING: Could not load Keras model (TensorFlow not available). Skipping CNN evaluation.
+2026-01-15 17:40:04,612 evaluation_logger INFO: Evaluating Transformer model...
+2026-01-15 17:40:04,673 evaluation_logger ERROR: Error evaluating Transformer model: 'collections.OrderedDict' object has no attribute 'eval'
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 56, in evaluate_transformer
+    model.eval()
+    ^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'eval'
+2026-01-15 17:40:04,675 evaluation_logger INFO: Evaluating SVM model...
+2026-01-15 17:40:04,676 evaluation_logger ERROR: Error evaluating SVM model: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 82, in evaluate_svm
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 44: character maps to <undefined>
+2026-01-15 17:40:04,679 evaluation_logger INFO: Evaluating Bayesian model...
+2026-01-15 17:40:04,680 evaluation_logger ERROR: Error evaluating Bayesian model: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 108, in evaluate_bayesian
+    model = read_from_file(model_path)
+  File "F:\AMG-Project\Multimodel\src\utils\file_utils.py", line 64, in read_from_file
+    return file.read()
+           ~~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 52: character maps to <undefined>
+2026-01-15 17:40:04,681 evaluation_logger INFO: Evaluating Vision Transformer model...
+2026-01-15 17:40:05,215 evaluation_logger ERROR: Error evaluating Vision Transformer model: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).
+Traceback (most recent call last):
+  File "F:\AMG-Project\Multimodel\src\evaluate.py", line 138, in evaluate_vision_transformer
+    model.load_state_dict(torch.load(model_path))
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\AMG-Project\Multimodel\.venv\Lib\site-packages\torch\nn\modules\module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for VisionTransformer:
+	Missing key(s) in state_dict: "transformer.layers.2.0.weight", "transformer.layers.2.0.bias", "transformer.layers.2.1.to_qkv.weight", "transformer.layers.2.1.to_out.0.weight", "transformer.layers.2.1.to_out.0.bias", "transformer.layers.2.2.weight", "transformer.layers.2.2.bias", "transformer.layers.2.3.net.0.weight", "transformer.layers.2.3.net.0.bias", "transformer.layers.2.3.net.3.weight", "transformer.layers.2.3.net.3.bias", "transformer.layers.3.0.weight", "transformer.layers.3.0.bias", "transformer.layers.3.1.to_qkv.weight", "transformer.layers.3.1.to_out.0.weight", "transformer.layers.3.1.to_out.0.bias", "transformer.layers.3.2.weight", "transformer.layers.3.2.bias", "transformer.layers.3.3.net.0.weight", "transformer.layers.3.3.net.0.bias", "transformer.layers.3.3.net.3.weight", "transformer.layers.3.3.net.3.bias", "transformer.layers.4.0.weight", "transformer.layers.4.0.bias", "transformer.layers.4.1.to_qkv.weight", "transformer.layers.4.1.to_out.0.weight", "transformer.layers.4.1.to_out.0.bias", "transformer.layers.4.2.weight", "transformer.layers.4.2.bias", "transformer.layers.4.3.net.0.weight", "transformer.layers.4.3.net.0.bias", "transformer.layers.4.3.net.3.weight", "transformer.layers.4.3.net.3.bias", "transformer.layers.5.0.weight", "transformer.layers.5.0.bias", "transformer.layers.5.1.to_qkv.weight", "transformer.layers.5.1.to_out.0.weight", "transformer.layers.5.1.to_out.0.bias", "transformer.layers.5.2.weight", "transformer.layers.5.2.bias", "transformer.layers.5.3.net.0.weight", "transformer.layers.5.3.net.0.bias", "transformer.layers.5.3.net.3.weight", "transformer.layers.5.3.net.3.bias", "transformer.layers.6.0.weight", "transformer.layers.6.0.bias", "transformer.layers.6.1.to_qkv.weight", "transformer.layers.6.1.to_out.0.weight", "transformer.layers.6.1.to_out.0.bias", "transformer.layers.6.2.weight", "transformer.layers.6.2.bias", "transformer.layers.6.3.net.0.weight", "transformer.layers.6.3.net.0.bias", "transformer.layers.6.3.net.3.weight", "transformer.layers.6.3.net.3.bias", "transformer.layers.7.0.weight", "transformer.layers.7.0.bias", "transformer.layers.7.1.to_qkv.weight", "transformer.layers.7.1.to_out.0.weight", "transformer.layers.7.1.to_out.0.bias", "transformer.layers.7.2.weight", "transformer.layers.7.2.bias", "transformer.layers.7.3.net.0.weight", "transformer.layers.7.3.net.0.bias", "transformer.layers.7.3.net.3.weight", "transformer.layers.7.3.net.3.bias", "transformer.layers.8.0.weight", "transformer.layers.8.0.bias", "transformer.layers.8.1.to_qkv.weight", "transformer.layers.8.1.to_out.0.weight", "transformer.layers.8.1.to_out.0.bias", "transformer.layers.8.2.weight", "transformer.layers.8.2.bias", "transformer.layers.8.3.net.0.weight", "transformer.layers.8.3.net.0.bias", "transformer.layers.8.3.net.3.weight", "transformer.layers.8.3.net.3.bias", "transformer.layers.9.0.weight", "transformer.layers.9.0.bias", "transformer.layers.9.1.to_qkv.weight", "transformer.layers.9.1.to_out.0.weight", "transformer.layers.9.1.to_out.0.bias", "transformer.layers.9.2.weight", "transformer.layers.9.2.bias", "transformer.layers.9.3.net.0.weight", "transformer.layers.9.3.net.0.bias", "transformer.layers.9.3.net.3.weight", "transformer.layers.9.3.net.3.bias", "transformer.layers.10.0.weight", "transformer.layers.10.0.bias", "transformer.layers.10.1.to_qkv.weight", "transformer.layers.10.1.to_out.0.weight", "transformer.layers.10.1.to_out.0.bias", "transformer.layers.10.2.weight", "transformer.layers.10.2.bias", "transformer.layers.10.3.net.0.weight", "transformer.layers.10.3.net.0.bias", "transformer.layers.10.3.net.3.weight", "transformer.layers.10.3.net.3.bias", "transformer.layers.11.0.weight", "transformer.layers.11.0.bias", "transformer.layers.11.1.to_qkv.weight", "transformer.layers.11.1.to_out.0.weight", "transformer.layers.11.1.to_out.0.bias", "transformer.layers.11.2.weight", "transformer.layers.11.2.bias", "transformer.layers.11.3.net.0.weight", "transformer.layers.11.3.net.0.bias", "transformer.layers.11.3.net.3.weight", "transformer.layers.11.3.net.3.bias". 
+	size mismatch for pos_embedding: copying a param with shape torch.Size([1, 17, 64]) from checkpoint, the shape in current model is torch.Size([1, 197, 768]).
+	size mismatch for cls_token: copying a param with shape torch.Size([1, 1, 64]) from checkpoint, the shape in current model is torch.Size([1, 1, 768]).
+	size mismatch for patch_to_embedding.weight: copying a param with shape torch.Size([64, 12]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for patch_to_embedding.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.0.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.0.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.0.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.0.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.0.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.1.to_qkv.weight: copying a param with shape torch.Size([192, 64]) from checkpoint, the shape in current model is torch.Size([2304, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.weight: copying a param with shape torch.Size([64, 64]) from checkpoint, the shape in current model is torch.Size([768, 768]).
+	size mismatch for transformer.layers.1.1.to_out.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.2.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for transformer.layers.1.3.net.0.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([3072, 768]).
+	size mismatch for transformer.layers.1.3.net.0.bias: copying a param with shape torch.Size([256]) from checkpoint, the shape in current model is torch.Size([3072]).
+	size mismatch for transformer.layers.1.3.net.3.weight: copying a param with shape torch.Size([64, 256]) from checkpoint, the shape in current model is torch.Size([768, 3072]).
+	size mismatch for transformer.layers.1.3.net.3.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.weight: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.0.bias: copying a param with shape torch.Size([64]) from checkpoint, the shape in current model is torch.Size([768]).
+	size mismatch for mlp_head.1.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([10, 768]).
+	size mismatch for mlp_head.1.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([10]).

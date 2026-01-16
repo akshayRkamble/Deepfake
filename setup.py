@@ -4,10 +4,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="multidisciplinary-deepfake-detection",
+    name="Multimodel-deepfake-detection",
     version="0.1.0",
-    author="HacktivSpace",
-    author_email="devsupport@hacktivspace.com",
+    author="Akshay Kamble",
+    author_email="akshaykamble7776@gmail.com",
     description="A multidisciplinary deepfake detection system using images, audios, and videos.",
     long_description=long_description,
     long_description_content_type="text/markdown",

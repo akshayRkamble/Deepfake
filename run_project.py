@@ -49,13 +49,13 @@ def main():
     print(f"{'='*60}")
     
     if success_count == len(steps):
-        print("✅ Project running successfully!")
+        print("[SUCCESS] Project running successfully!")
         print("\nTrained models available in: models/saved_models/")
         print("- svm_model.pkl")
         print("- randomforest_model.pkl") 
         print("- logisticregression_model.pkl")
     else:
-        print("❌ Some steps failed. Check output above.")
+        print("[ERROR] Some steps failed. Check output above.")
 
 if __name__ == "__main__":
     main()

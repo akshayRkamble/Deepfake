@@ -8,7 +8,7 @@ def load_test_data():
     """Load test data"""
     np.random.seed(123)  # Different seed for test data
     n_samples = 200
-    X = np.random.randn(n_samples, 144)
+    X = np.random.randn(n_samples, 144)  # Match training data features
     y = (X[:, 0] + X[:, 64] + X[:, 96] > 0).astype(int)
     return X, y
 
